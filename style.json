@@ -1,4 +1,6 @@
 {
+  "version": 8,
+  "name": "Klokantech Basic / osl",
   "metadata": {
     "mapbox:autocomposite": false,
     "mapbox:type": "template",
@@ -7,7 +9,12 @@
     "openmaptiles:mapbox:source:url": "mapbox://openmaptiles.4qljc88t",
     "openmaptiles:version": "3.x"
   },
-  "name": "Klokantech Basic / osl",
+  "center": [
+    8.54806714892635,
+    47.37180823552663
+  ],
+  "zoom": 12.241790506353492,
+  "bearing": 0,
   "pitch": 0,
   "sources": {
     "osm": {
@@ -20,16 +27,8 @@
       "type": "vector"
     }
   },
-  "id": "ciwf4zbsv007y2pmt2rspc1dc",
   "sprite": "https://openmaptiles.github.io/klokantech-basic-gl-style/sprite",
   "glyphs": "https://free.tilehosting.com/fonts/{fontstack}/{range}.pbf?key=RiS4gsgZPZqeeMlIyxFo",
-  "version": 8,
-  "zoom": 12.241790506353492,
-  "bearing": 0,
-  "center": [
-    8.54806714892635,
-    47.37180823552663
-  ],
   "layers": [
     {
       "id": "background",
@@ -1490,6 +1489,52 @@
       }
     },
     {
+      "id": "mountains",
+      "type": "symbol",
+      "source": "osm",
+      "source-layer": "mountain_peak",
+      "minzoom": 8,
+      "maxzoom": 24,
+      "layout": {
+        "icon-allow-overlap": false,
+        "text-allow-overlap": false,
+        "text-anchor": "top",
+        "text-field": {
+          "stops": [
+            [
+              10,
+              "▲\n{name}"
+            ],
+            [
+              12,
+              "▲\n{name:latin} {name:nonlatin}\n{ele} m"
+            ]
+          ]
+        },
+        "text-font": [
+          "Arial Unicode MS Regular"
+        ],
+        "text-ignore-placement": false,
+        "text-max-width": 8,
+        "text-offset": [
+          0,
+          1
+        ],
+        "text-rotate": 0,
+        "text-size": 9,
+        "text-transform": "none",
+        "visibility": "visible"
+      },
+      "paint": {
+        "icon-opacity": 0.8,
+        "text-color": "rgba(0, 0, 0, 1)",
+        "text-halo-blur": 0,
+        "text-halo-color": "rgba(0, 0, 0, 0)",
+        "text-halo-width": 0,
+        "text-opacity": 0.8
+      }
+    },
+    {
       "id": "place_label_other",
       "type": "symbol",
       "source": "osm",
@@ -1683,52 +1728,7 @@
         "text-halo-width": 2,
         "text-halo-blur": 0
       }
-    },
-    {
-      "id": "mountains",
-      "layout": {
-        "icon-allow-overlap": false,
-        "text-allow-overlap": false,
-        "text-anchor": "top",
-        "text-field": {
-          "stops": [
-            [
-              10,
-              "▲\n{name}"
-            ],
-            [
-              12,
-              "▲\n{name:latin} {name:nonlatin}\n{ele} m"
-            ]
-          ]
-        },
-        "text-font": [
-          "Arial Unicode MS Regular"
-        ],
-        "text-ignore-placement": false,
-        "text-max-width": 8,
-        "text-offset": [
-          0,
-          1
-        ],
-        "text-rotate": 0,
-        "text-size": 9,
-        "text-transform": "none",
-        "visibility": "visible"
-      },
-      "maxzoom": 24,
-      "minzoom": 8,
-      "paint": {
-        "icon-opacity": 0.8,
-        "text-color": "rgba(0, 0, 0, 1)",
-        "text-halo-blur": 0,
-        "text-halo-color": "rgba(0, 0, 0, 0)",
-        "text-halo-width": 0,
-        "text-opacity": 0.8
-      },
-      "source": "osm",
-      "source-layer": "mountain_peak",
-      "type": "symbol"
     }
-  ]
+  ],
+  "id": "ciwf4zbsv007y2pmt2rspc1dc"
 }
