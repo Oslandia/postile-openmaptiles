@@ -55,7 +55,7 @@ Change the PostgreSQL configuration to allow interacting with container's tools:
 ## Prepare the tileset
 
 Extracted from [docker-compose.yml](https://github.com/openmaptiles/openmaptiles/blob/master/docker-compose.yml) 
-and (OpenMapTiles README)[https://github.com/openmaptiles/openmaptiles]  
+and [OpenMapTiles README](https://github.com/openmaptiles/openmaptiles) 
     
     pip install openmaptiles-tools
     git clone git@github.com:openmaptiles/openmaptiles.git
