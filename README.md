@@ -33,6 +33,7 @@ NB: **postgis >= 2.4.0** is required (with st_asmvt* functions)
     make
     sudo make install
 
+    sudo -u postgres psql 
     create user osm with password 'osm';
     create database osm with owner osm;
     \c osm 
@@ -49,15 +50,15 @@ We have to find the Docker Gateway IP to be able to connect from the container t
 
 Change the PostgreSQL configuration to allow interacting with container's tools:
 
-    # ensure localhost='*' is set in postgresql.conf
+    # ensure listen_addresses = '*' is uncommented in postgresql.conf
     # ensure pg_hba config allows authenticating from docker "172.17.0.*" addresses 
 
 ## Prepare the tileset
 
 Extracted from [docker-compose.yml](https://github.com/openmaptiles/openmaptiles/blob/master/docker-compose.yml) 
 and [OpenMapTiles README](https://github.com/openmaptiles/openmaptiles) 
-    
-    pip install openmaptiles-tools
+
+    pip install openmaptiles-tools  # inside a python 2 venv
     git clone git@github.com:openmaptiles/openmaptiles.git
     cd openmaptiles
     # make the imposm3 mapping, tm2source file and aggregate SQL layers 
