@@ -64,6 +64,11 @@ and [OpenMapTiles README](https://github.com/openmaptiles/openmaptiles)
     # make the imposm3 mapping, tm2source file and aggregate SQL layers 
     make
 
+    # Download and load OSM dataset
+    wget -P data/ http://download.geofabrik.de/europe/france/rhone-alpes-latest.osm.pbf
+    docker run --rm -v $(pwd)/data:/import -v $(pwd)/build:/mapping -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-osm:0.5
+
+    # Download and load additional data 
     docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-water:0.6
     docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-natural-earth:1.4
     docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-lakelines:1.0
@@ -72,10 +77,7 @@ and [OpenMapTiles README](https://github.com/openmaptiles/openmaptiles)
     docker run --rm -v $(pwd)/wikidata:/import --entrypoint /usr/src/app/download-gz.sh openmaptiles/import-wikidata:0.1
     docker run --rm -v $(pwd)/wikidata:/import -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-wikidata:0.1
 
-## Download and load OSM data
-
-    wget -P data/ http://download.geofabrik.de/europe/france/rhone-alpes-latest.osm.pbf
-    docker run --rm -v $(pwd)/data:/import -v $(pwd)/build:/mapping -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-osm:0.5
+    # load sql wrappers used for rendering
     docker run --rm -v $(pwd)/build:/sql -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-sql:0.7
 
 ## Choose a Mapbox GL style
