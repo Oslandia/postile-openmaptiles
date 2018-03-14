@@ -56,29 +56,38 @@ Change the PostgreSQL configuration to allow interacting with container's tools:
 ## Prepare the tileset
 
 Extracted from [docker-compose.yml](https://github.com/openmaptiles/openmaptiles/blob/master/docker-compose.yml) 
-and [OpenMapTiles README](https://github.com/openmaptiles/openmaptiles) 
+and the [OpenMapTiles README](https://github.com/openmaptiles/openmaptiles) 
 
-    pip install openmaptiles-tools  # inside a python 2 venv
-    git clone git@github.com:openmaptiles/openmaptiles.git
-    cd openmaptiles
-    # make the imposm3 mapping, tm2source file and aggregate SQL layers 
-    make
+1. Download tools to generate tm2source for all layers
 
-    # Download and load OSM dataset
-    wget -P data/ http://download.geofabrik.de/europe/france/rhone-alpes-latest.osm.pbf
-    docker run --rm -v $(pwd)/data:/import -v $(pwd)/build:/mapping -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-osm:0.5
+        pip install openmaptiles-tools  # inside a python 2 venv
+        git clone git@github.com:openmaptiles/openmaptiles.git
+        cd openmaptiles
+        # make the imposm3 mapping, tm2source file and aggregate SQL layers 
+        make
 
-    # Download and load additional data 
-    docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-water:0.6
-    docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-natural-earth:1.4
-    docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-lakelines:1.0
-    docker run --rm -v $(pwd)/data:/import openmaptiles/generate-osmborder
-    docker run --rm -v $(pwd)/data:/import -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-osmborder:0.4
-    docker run --rm -v $(pwd)/wikidata:/import --entrypoint /usr/src/app/download-gz.sh openmaptiles/import-wikidata:0.1
-    docker run --rm -v $(pwd)/wikidata:/import -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-wikidata:0.1
+2. Download and load OSM dataset (example used is the Rhône-Alpes area in France)
+   
+        wget -P data/ http://download.geofabrik.de/europe/france/rhone-alpes-latest.osm.pbf
+        docker run --rm -v $(pwd)/data:/import -v $(pwd)/build:/mapping -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-osm:0.5
+        docker run --rm -v $(pwd)/data:/import openmaptiles/generate-osmborder
+        docker run --rm -v $(pwd)/data:/import -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-osmborder:0.4
 
-    # load sql wrappers used for rendering
-    docker run --rm -v $(pwd)/build:/sql -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-sql:0.7
+3. Download additional non-OSM data
+
+        docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-water:0.6
+        docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-natural-earth:1.4
+        docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-lakelines:1.0
+
+4. Grab some wikipedia data used for translations (WARNING: this part can take a while since the file to download is ~30GB)
+   If you don't care about translations, you can skip this part.
+
+        docker run --rm -v $(pwd)/wikidata:/import --entrypoint /usr/src/app/download-gz.sh openmaptiles/import-wikidata:0.1
+        docker run --rm -v $(pwd)/wikidata:/import -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-wikidata:0.1
+
+5. Load sql wrappers used for rendering
+   
+        docker run --rm -v $(pwd)/build:/sql -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-sql:0.7
 
 ## Choose a Mapbox GL style
 
