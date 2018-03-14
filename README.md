@@ -7,7 +7,7 @@ This tutorial aims to create a full vector tile server based on the great
 
 This example is really close to the openmaptiles quickstart guide except that we don't want 
 to store our data in a dockerised container. We also want to serve tiles directly 
-from PostGIS instead of mbtiles. For this last point [Postile](https://github.com/ldgeo/postile)
+from PostGIS instead of mbtiles. For this last point [Postile](https://github.com/oslandia/postile)
 will be used to replace the generation of the MBTiles file.
 
 ## System requirements 
@@ -87,7 +87,7 @@ You can grab the `style.json` in this repository for testing
 
 ## Postile
 
-Now we are ready to serve our tiles with [Postile](https://github.com/ldgeo/postile): 
+Now we are ready to serve our tiles with [Postile](https://github.com/oslandia/postile): 
 
     postile --help
     postile --cors --tm2 build/openmaptiles.tm2source/data.yml --style style.json 
