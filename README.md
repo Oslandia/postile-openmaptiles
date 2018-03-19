@@ -27,7 +27,7 @@ You can simply install all the PG stuffs with:
 
 NB: **postgis >= 2.4.0** is required (with st_asmvt* functions)
     
-    sudo apt install libkakasi2-dev libutf8proc-dev
+    sudo apt install libkakasi2-dev libutf8proc-dev pandoc libicu-dev
     git clone https://github.com/openmaptiles/mapnik-german-l10n.git
     cd mapnik-german-l10n 
     make
