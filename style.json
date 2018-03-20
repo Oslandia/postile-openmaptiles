@@ -22,7 +22,7 @@
       "maxZoom": 14,
       "minZoom": 0,
       "tiles": [
-        "http://localhost:8080/tiles/{z}/{x}/{y}.pbf"
+        "http://localhost:8080/{z}/{x}/{y}.pbf"
       ],
       "type": "vector"
     }
