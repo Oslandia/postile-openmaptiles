@@ -43,10 +43,9 @@ NB: **postgis >= 2.4.0** is required (with st_asmvt* functions)
     create extension fuzzystrmatch;
     create extension osml10n;
 
-We have to find the Docker Gateway IP to be able to connect from the container to the host:
+Storing the gateway IP of the Docker bridge interface to be able to connect from the container to our local PostgreSQL:
 
-    $ docker network inspect bridge | jq .[0].IPAM.Config[0].Gateway
-    "172.17.0.1"
+    $ export PG_GATEWAY=$(docker network inspect bridge | jq -r .[0].IPAM.Config[0].Gateway)
 
 Change the PostgreSQL configuration to allow interacting with container's tools:
 
@@ -68,21 +67,21 @@ and the [OpenMapTiles README](https://github.com/openmaptiles/openmaptiles)
 2. Download and load OSM dataset (example used is the Rhône-Alpes area in France)
    
         wget -P data/ http://download.geofabrik.de/europe/france/rhone-alpes-latest.osm.pbf
-        docker run --rm -v $(pwd)/data:/import -v $(pwd)/build:/mapping -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-osm:0.5
+        docker run --rm -v $(pwd)/data:/import -v $(pwd)/build:/mapping -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST=$PG_GATEWAY -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-osm:0.5
         docker run --rm -v $(pwd)/data:/import openmaptiles/generate-osmborder
-        docker run --rm -v $(pwd)/data:/import -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-osmborder:0.4
+        docker run --rm -v $(pwd)/data:/import -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST=$PG_GATEWAY -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-osmborder:0.4
 
 3. Download additional non-OSM data
 
-        docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-natural-earth:1.4
-        docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-lakelines:1.0
-        docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-water:1.1
+        docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST=$PG_GATEWAY -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-water:1.1
+        docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST=$PG_GATEWAY -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-natural-earth:1.4
+        docker run --rm -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST=$PG_GATEWAY -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-lakelines:1.0
 
 4. Grab some wikipedia data used for translations (WARNING: this part can take a while since the file to download is ~30GB)
-   If you don't care about translations, you can skip this part.
+   If you don't care about translations, you can skip the first command, the second one will create the empty relations for next steps.
 
         docker run --rm -v $(pwd)/wikidata:/import --entrypoint /usr/src/app/download-gz.sh openmaptiles/import-wikidata:0.1
-        docker run --rm -v $(pwd)/wikidata:/import -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-wikidata:0.1
+        docker run --rm -v $(pwd)/wikidata:/import -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST=$PG_GATEWAY -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-wikidata:0.1
 
 5. Load sql wrappers used for rendering
    
