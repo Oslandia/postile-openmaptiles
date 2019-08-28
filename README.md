@@ -86,7 +86,7 @@ and the [OpenMapTiles README](https://github.com/openmaptiles/openmaptiles)
 
 5. Load sql wrappers used for rendering
    
-        docker run --rm -v $(pwd)/build:/sql -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-sql:0.7
+        docker run --rm -v $(pwd)/build:/sql -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST="172.17.0.1" -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-sql:0.8
 
 ## Choose a Mapbox GL style
 
