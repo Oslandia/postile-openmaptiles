@@ -58,13 +58,12 @@ Change the PostgreSQL configuration to allow interacting with container's tools:
 Extracted from [docker-compose.yml](https://github.com/openmaptiles/openmaptiles/blob/master/docker-compose.yml) 
 and the [OpenMapTiles README](https://github.com/openmaptiles/openmaptiles) 
 
-1. Download tools to generate tm2source for all layers
+1. Build the imposm mapping, the tm2source project and collect all SQL scripts
 
-        pip install openmaptiles-tools  # inside a python 2 venv
-        git clone git@github.com:openmaptiles/openmaptiles.git
-        cd openmaptiles
-        # make the imposm3 mapping, tm2source file and aggregate SQL layers 
-        make
+        mkdir -p build/openmaptiles.tm2source
+        docker run -v $(pwd):/tileset -v $(pwd)/build:/sql --rm openmaptiles/openmaptiles-tools generate-tm2source openmaptiles.yaml --port=5432 --database="osm" --user="osm" --password="osm" > build/openmaptiles.tm2source/data.yml
+        docker run -v $(pwd):/tileset -v $(pwd)/build:/sql --rm openmaptiles/openmaptiles-tools generate-imposm3 openmaptiles.yaml > build/mapping.yaml
+        docker run -v $(pwd):/tileset -v $(pwd)/build:/sql --rm openmaptiles/openmaptiles-tools generate-sql openmaptiles.yaml > build/tileset.sql
 
 2. Download and load OSM dataset (example used is the Rhône-Alpes area in France)
    
