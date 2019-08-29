@@ -90,7 +90,7 @@ and the [OpenMapTiles README](https://github.com/openmaptiles/openmaptiles)
 ## Choose a Mapbox GL style
 
 You can grab the `style.json` in this repository for testing 
-(based on the [klokantech basic gl style](https://github.com/openmaptiles/klokantech-basic-gl-style))  
+(based on the [klokantech basic gl style](https://github.com/openmaptiles/klokantech-basic-gl-style))
 
 ## Postile
 
@@ -101,37 +101,4 @@ Now we are ready to serve our tiles with [Postile](https://github.com/oslandia/p
 
 ## Show me a map !!
 
-copy/paste this simple index.html: 
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8' />
-    <title>Postile/OpenMapTiles example</title>
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.0/mapbox-gl.css' rel='stylesheet' />
-    <style>
-        body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; width:100%; }
-    </style>
-</head>
-<body>
-
-<div id='map'></div>
-<script>
-mapboxgl.accessToken = ' ';
-var map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'http://localhost:8080/style.json', // stylesheet location
-    center: [5.1642882824, 44.7035735379], // centering
-    zoom: 6, // starting zoom
-    attributionControl: false,
-});
-map.addControl(new mapboxgl.AttributionControl({
-    compact: true,
-}));
-map.addControl(new mapboxgl.NavigationControl());
-</script>
-```
+Open the index.html
