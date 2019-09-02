@@ -91,14 +91,22 @@ and the [OpenMapTiles README](https://github.com/openmaptiles/openmaptiles)
 
 You can grab the `style.json` in this repository for testing 
 (based on the [klokantech basic gl style](https://github.com/openmaptiles/klokantech-basic-gl-style))
+and download the fonts needed for it:
+```
+mkdir fonts 
+cd fonts 
+wget https://github.com/openmaptiles/fonts/releases/download/v2.0/v2.0.zip
+unzip v2.0.zip
+rm v2.0.zip
+```
 
 ## Postile
 
 Now we are ready to serve our tiles with [Postile](https://github.com/oslandia/postile): 
 
     postile --help
-    postile --cors --tm2 build/openmaptiles.tm2source/data.yml --style style.json 
+    postile --cors --tm2 build/openmaptiles.tm2source/data.yml --style style.json --fonts fonts/
 
 ## Show me a map !!
 
-Open the index.html
+Open the index.html with your favorite browser
