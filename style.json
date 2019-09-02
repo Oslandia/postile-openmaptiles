@@ -27,7 +27,6 @@
       "type": "vector"
     }
   },
-  "sprite": "https://openmaptiles.github.io/klokantech-basic-gl-style/sprite",
   "glyphs": "https://free.tilehosting.com/fonts/{fontstack}/{range}.pbf?key=RiS4gsgZPZqeeMlIyxFo",
   "layers": [
     {
