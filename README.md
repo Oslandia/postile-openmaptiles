@@ -67,7 +67,7 @@ and the [OpenMapTiles README](https://github.com/openmaptiles/openmaptiles)
 2. Download and load OSM dataset (example used is the Rhône-Alpes area in France)
    
         wget -P data/ http://download.geofabrik.de/europe/france/rhone-alpes-latest.osm.pbf
-        docker run --rm -v $(pwd)/data:/import -v $(pwd)/build:/mapping -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST=$PG_GATEWAY -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-osm:0.5
+        docker run --rm -v $(pwd)/data:/import -v $(pwd)/build:/mapping -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST=$PG_GATEWAY -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" -e DIFF_MODE="FALSE" openmaptiles/import-osm:0.5
         docker run --rm -v $(pwd)/data:/import openmaptiles/generate-osmborder
         docker run --rm -v $(pwd)/data:/import -e POSTGRES_DB="osm" -e POSTGRES_PORT="5432" -e POSTGRES_HOST=$PG_GATEWAY -e POSTGRES_PASSWORD="osm" -e POSTGRES_USER="osm" openmaptiles/import-osmborder:0.4
 
