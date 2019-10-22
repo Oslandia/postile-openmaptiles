@@ -102,10 +102,10 @@ rm v2.0.zip
 
 ## Postile
 
-Now we are ready to serve our tiles with [Postile](https://github.com/oslandia/postile): 
+Now we are ready to serve our tiles with [Postile](https://github.com/oslandia/postile) (note: depending on your pg_hba, your --phost, --pguser and --pgpassword may differ):
 
     postile --help
-    postile --cors --tm2 build/openmaptiles.tm2source/data.yml --style style.json --fonts fonts/
+    postile --cors --tm2 build/openmaptiles.tm2source/data.yml --style style.json --fonts fonts/ --pghost 127.0.0.1 --pguser osm --pgpassword osm
 
 ## Show me a map !!
 
